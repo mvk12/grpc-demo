@@ -8,16 +8,16 @@ import (
 	"github.com/mvk12/grpc-demo/repositories"
 )
 
-type Server struct {
+type StudentServer struct {
 	repo repositories.Repository
 	pb.UnimplementedStudentServiceServer
 }
 
-func NewStudentServer(repo repositories.Repository) *Server {
-	return &Server{repo: repo}
+func NewStudentServer(repo repositories.Repository) *StudentServer {
+	return &StudentServer{repo: repo}
 }
 
-func (s *Server) GetStudent(ctx context.Context, req *pb.GetStudentRequest) (*pb.Student, error) {
+func (s *StudentServer) GetStudent(ctx context.Context, req *pb.GetStudentRequest) (*pb.Student, error) {
 	student, err := s.repo.GetStudentByID(ctx, req.GetId())
 	if err != nil {
 		return nil, err
@@ -30,7 +30,7 @@ func (s *Server) GetStudent(ctx context.Context, req *pb.GetStudentRequest) (*pb
 	}, nil
 }
 
-func (s *Server) CreateStudent(ctx context.Context, req *pb.Student) (*pb.StudentResponse, error) {
+func (s *StudentServer) CreateStudent(ctx context.Context, req *pb.Student) (*pb.StudentResponse, error) {
 	student, err := s.repo.CreateStudent(ctx, &models.Student{
 		Name:  req.GetName(),
 		Email: req.GetEmail(),
