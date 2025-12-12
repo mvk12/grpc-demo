@@ -49,3 +49,26 @@ func (r *PostgresRepository) GetStudentByID(ctx context.Context, id int32) (*mod
 
 	return &student, nil
 }
+
+func (r *PostgresRepository) CreateTest(ctx context.Context, test *models.Test) (*models.Test, error) {
+	var id int64
+	err := r.db.QueryRowContext(ctx, "INSERT INTO public.tests (title, description) VALUES ($1, $2) RETURNING id", test.Title, test.Description).Scan(&id)
+	if err != nil {
+		return nil, err
+	}
+
+	test.ID = int32(id)
+
+	return test, nil
+}
+
+func (r *PostgresRepository) GetTestByID(ctx context.Context, id int32) (*models.Test, error) {
+	row := r.db.QueryRowContext(ctx, "SELECT id, title, description FROM public.tests WHERE id = $1 LIMIT 1", id)
+	var test = models.Test{}
+	err := row.Scan(&test.ID, &test.Title, &test.Description)
+	if err != nil {
+		return nil, err
+	}
+
+	return &test, nil
+}

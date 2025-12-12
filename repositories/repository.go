@@ -9,6 +9,8 @@ import (
 type Repository interface {
 	GetStudentByID(ctx context.Context, id int32) (*models.Student, error)
 	CreateStudent(ctx context.Context, student *models.Student) (*models.Student, error)
+	GetTestByID(ctx context.Context, id int32) (*models.Test, error)
+	CreateTest(ctx context.Context, test *models.Test) (*models.Test, error)
 }
 
 var repoInstance Repository
@@ -23,4 +25,12 @@ func CreateStudent(ctx context.Context, student *models.Student) (*models.Studen
 
 func GetStudentByID(ctx context.Context, id int32) (*models.Student, error) {
 	return repoInstance.GetStudentByID(ctx, id)
+}
+
+func CreateTest(ctx context.Context, test *models.Test) (*models.Test, error) {
+	return repoInstance.CreateTest(ctx, test)
+}
+
+func GetTestByID(ctx context.Context, id int32) (*models.Test, error) {
+	return repoInstance.GetTestByID(ctx, id)
 }
