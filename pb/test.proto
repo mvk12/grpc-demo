@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package test;
+
+option go_package = "github.com/mvk12/grpc-demo;pb";
+
+message Test {
+  int32 id = 1;
+  string title = 2;
+  string description = 3;
+}
+
+message GetTestRequest {
+  int32 id = 1;
+}
+
+message TestResponse {
+  int32 id = 1;
+}
+
+service TestService {
+  rpc GetTest(GetTestRequest) returns (Test);
+  rpc CreateTest(Test) returns (TestResponse);
+}
