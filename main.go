@@ -46,9 +46,11 @@ func main() {
 	}
 
 	studentServer := servers.NewStudentServer(repo)
+	testServer := servers.NewTestServer(repo)
 
 	s := grpc.NewServer()
 	pb.RegisterStudentServiceServer(s, studentServer)
+	pb.RegisterTestServiceServer(s, testServer)
 
 	reflection.Register(s)
 
