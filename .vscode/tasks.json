@@ -1,0 +1,24 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Compile this proto",
+      "command": "protoc",
+      "args": [
+        "--proto_path=${workspaceFolder}",
+        "--go_out=.",
+        "--go_opt=paths=source_relative",
+        "--go-grpc_out=.",
+        "--go-grpc_opt=paths=source_relative",
+        "${relativeFile}"
+      ],
+      "type": "shell",
+      "group": "build",
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared",
+        "clear": true
+      },
+    }
+  ]
+}
