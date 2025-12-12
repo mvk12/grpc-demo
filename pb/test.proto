@@ -10,6 +10,13 @@ message Test {
   string description = 3;
 }
 
+message Question {
+  int32 id = 1;
+  string question = 2;
+  string answer = 3;
+  int32 test_id = 4;
+}
+
 message GetTestRequest {
   int32 id = 1;
 }
@@ -18,7 +25,12 @@ message TestResponse {
   int32 id = 1;
 }
 
+message QuestionsResponse {
+  bool ok = 1;
+}
+
 service TestService {
   rpc GetTest(GetTestRequest) returns (Test);
   rpc CreateTest(Test) returns (TestResponse);
+  rpc CreateQuestions(stream Question) returns (QuestionsResponse);
 }

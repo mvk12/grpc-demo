@@ -81,6 +81,74 @@ func (x *Test) GetDescription() string {
 	return ""
 }
 
+type Question struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Question      string                 `protobuf:"bytes,2,opt,name=question,proto3" json:"question,omitempty"`
+	Answer        string                 `protobuf:"bytes,3,opt,name=answer,proto3" json:"answer,omitempty"`
+	TestId        int32                  `protobuf:"varint,4,opt,name=test_id,json=testId,proto3" json:"test_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Question) Reset() {
+	*x = Question{}
+	mi := &file_pb_test_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Question) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Question) ProtoMessage() {}
+
+func (x *Question) ProtoReflect() protoreflect.Message {
+	mi := &file_pb_test_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Question.ProtoReflect.Descriptor instead.
+func (*Question) Descriptor() ([]byte, []int) {
+	return file_pb_test_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *Question) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *Question) GetQuestion() string {
+	if x != nil {
+		return x.Question
+	}
+	return ""
+}
+
+func (x *Question) GetAnswer() string {
+	if x != nil {
+		return x.Answer
+	}
+	return ""
+}
+
+func (x *Question) GetTestId() int32 {
+	if x != nil {
+		return x.TestId
+	}
+	return 0
+}
+
 type GetTestRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -90,7 +158,7 @@ type GetTestRequest struct {
 
 func (x *GetTestRequest) Reset() {
 	*x = GetTestRequest{}
-	mi := &file_pb_test_proto_msgTypes[1]
+	mi := &file_pb_test_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -102,7 +170,7 @@ func (x *GetTestRequest) String() string {
 func (*GetTestRequest) ProtoMessage() {}
 
 func (x *GetTestRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_test_proto_msgTypes[1]
+	mi := &file_pb_test_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -115,7 +183,7 @@ func (x *GetTestRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTestRequest.ProtoReflect.Descriptor instead.
 func (*GetTestRequest) Descriptor() ([]byte, []int) {
-	return file_pb_test_proto_rawDescGZIP(), []int{1}
+	return file_pb_test_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *GetTestRequest) GetId() int32 {
@@ -134,7 +202,7 @@ type TestResponse struct {
 
 func (x *TestResponse) Reset() {
 	*x = TestResponse{}
-	mi := &file_pb_test_proto_msgTypes[2]
+	mi := &file_pb_test_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -146,7 +214,7 @@ func (x *TestResponse) String() string {
 func (*TestResponse) ProtoMessage() {}
 
 func (x *TestResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_test_proto_msgTypes[2]
+	mi := &file_pb_test_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -159,7 +227,7 @@ func (x *TestResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TestResponse.ProtoReflect.Descriptor instead.
 func (*TestResponse) Descriptor() ([]byte, []int) {
-	return file_pb_test_proto_rawDescGZIP(), []int{2}
+	return file_pb_test_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *TestResponse) GetId() int32 {
@@ -167,6 +235,50 @@ func (x *TestResponse) GetId() int32 {
 		return x.Id
 	}
 	return 0
+}
+
+type QuestionsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Ok            bool                   `protobuf:"varint,1,opt,name=ok,proto3" json:"ok,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *QuestionsResponse) Reset() {
+	*x = QuestionsResponse{}
+	mi := &file_pb_test_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *QuestionsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QuestionsResponse) ProtoMessage() {}
+
+func (x *QuestionsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_pb_test_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use QuestionsResponse.ProtoReflect.Descriptor instead.
+func (*QuestionsResponse) Descriptor() ([]byte, []int) {
+	return file_pb_test_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *QuestionsResponse) GetOk() bool {
+	if x != nil {
+		return x.Ok
+	}
+	return false
 }
 
 var File_pb_test_proto protoreflect.FileDescriptor
@@ -177,17 +289,25 @@ const file_pb_test_proto_rawDesc = "" +
 	"\x04Test\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x14\n" +
 	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\" \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\"g\n" +
+	"\bQuestion\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x1a\n" +
+	"\bquestion\x18\x02 \x01(\tR\bquestion\x12\x16\n" +
+	"\x06answer\x18\x03 \x01(\tR\x06answer\x12\x17\n" +
+	"\atest_id\x18\x04 \x01(\x05R\x06testId\" \n" +
 	"\x0eGetTestRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\"\x1e\n" +
 	"\fTestResponse\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x05R\x02id2h\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\"#\n" +
+	"\x11QuestionsResponse\x12\x0e\n" +
+	"\x02ok\x18\x01 \x01(\bR\x02ok2\xa6\x01\n" +
 	"\vTestService\x12+\n" +
 	"\aGetTest\x12\x14.test.GetTestRequest\x1a\n" +
 	".test.Test\x12,\n" +
 	"\n" +
 	"CreateTest\x12\n" +
-	".test.Test\x1a\x12.test.TestResponseB\x1fZ\x1dgithub.com/mvk12/grpc-demo;pbb\x06proto3"
+	".test.Test\x1a\x12.test.TestResponse\x12<\n" +
+	"\x0fCreateQuestions\x12\x0e.test.Question\x1a\x17.test.QuestionsResponse(\x01B\x1fZ\x1dgithub.com/mvk12/grpc-demo;pbb\x06proto3"
 
 var (
 	file_pb_test_proto_rawDescOnce sync.Once
@@ -201,19 +321,23 @@ func file_pb_test_proto_rawDescGZIP() []byte {
 	return file_pb_test_proto_rawDescData
 }
 
-var file_pb_test_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_pb_test_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_pb_test_proto_goTypes = []any{
-	(*Test)(nil),           // 0: test.Test
-	(*GetTestRequest)(nil), // 1: test.GetTestRequest
-	(*TestResponse)(nil),   // 2: test.TestResponse
+	(*Test)(nil),              // 0: test.Test
+	(*Question)(nil),          // 1: test.Question
+	(*GetTestRequest)(nil),    // 2: test.GetTestRequest
+	(*TestResponse)(nil),      // 3: test.TestResponse
+	(*QuestionsResponse)(nil), // 4: test.QuestionsResponse
 }
 var file_pb_test_proto_depIdxs = []int32{
-	1, // 0: test.TestService.GetTest:input_type -> test.GetTestRequest
+	2, // 0: test.TestService.GetTest:input_type -> test.GetTestRequest
 	0, // 1: test.TestService.CreateTest:input_type -> test.Test
-	0, // 2: test.TestService.GetTest:output_type -> test.Test
-	2, // 3: test.TestService.CreateTest:output_type -> test.TestResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	1, // 2: test.TestService.CreateQuestions:input_type -> test.Question
+	0, // 3: test.TestService.GetTest:output_type -> test.Test
+	3, // 4: test.TestService.CreateTest:output_type -> test.TestResponse
+	4, // 5: test.TestService.CreateQuestions:output_type -> test.QuestionsResponse
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -230,7 +354,7 @@ func file_pb_test_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_pb_test_proto_rawDesc), len(file_pb_test_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

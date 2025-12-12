@@ -19,8 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	TestService_GetTest_FullMethodName    = "/test.TestService/GetTest"
-	TestService_CreateTest_FullMethodName = "/test.TestService/CreateTest"
+	TestService_GetTest_FullMethodName         = "/test.TestService/GetTest"
+	TestService_CreateTest_FullMethodName      = "/test.TestService/CreateTest"
+	TestService_CreateQuestions_FullMethodName = "/test.TestService/CreateQuestions"
 )
 
 // TestServiceClient is the client API for TestService service.
@@ -29,6 +30,7 @@ const (
 type TestServiceClient interface {
 	GetTest(ctx context.Context, in *GetTestRequest, opts ...grpc.CallOption) (*Test, error)
 	CreateTest(ctx context.Context, in *Test, opts ...grpc.CallOption) (*TestResponse, error)
+	CreateQuestions(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[Question, QuestionsResponse], error)
 }
 
 type testServiceClient struct {
@@ -59,12 +61,26 @@ func (c *testServiceClient) CreateTest(ctx context.Context, in *Test, opts ...gr
 	return out, nil
 }
 
+func (c *testServiceClient) CreateQuestions(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[Question, QuestionsResponse], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &TestService_ServiceDesc.Streams[0], TestService_CreateQuestions_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[Question, QuestionsResponse]{ClientStream: stream}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type TestService_CreateQuestionsClient = grpc.ClientStreamingClient[Question, QuestionsResponse]
+
 // TestServiceServer is the server API for TestService service.
 // All implementations must embed UnimplementedTestServiceServer
 // for forward compatibility.
 type TestServiceServer interface {
 	GetTest(context.Context, *GetTestRequest) (*Test, error)
 	CreateTest(context.Context, *Test) (*TestResponse, error)
+	CreateQuestions(grpc.ClientStreamingServer[Question, QuestionsResponse]) error
 	mustEmbedUnimplementedTestServiceServer()
 }
 
@@ -80,6 +96,9 @@ func (UnimplementedTestServiceServer) GetTest(context.Context, *GetTestRequest) 
 }
 func (UnimplementedTestServiceServer) CreateTest(context.Context, *Test) (*TestResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateTest not implemented")
+}
+func (UnimplementedTestServiceServer) CreateQuestions(grpc.ClientStreamingServer[Question, QuestionsResponse]) error {
+	return status.Error(codes.Unimplemented, "method CreateQuestions not implemented")
 }
 func (UnimplementedTestServiceServer) mustEmbedUnimplementedTestServiceServer() {}
 func (UnimplementedTestServiceServer) testEmbeddedByValue()                     {}
@@ -138,6 +157,13 @@ func _TestService_CreateTest_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TestService_CreateQuestions_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(TestServiceServer).CreateQuestions(&grpc.GenericServerStream[Question, QuestionsResponse]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type TestService_CreateQuestionsServer = grpc.ClientStreamingServer[Question, QuestionsResponse]
+
 // TestService_ServiceDesc is the grpc.ServiceDesc for TestService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -154,6 +180,12 @@ var TestService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _TestService_CreateTest_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "CreateQuestions",
+			Handler:       _TestService_CreateQuestions_Handler,
+			ClientStreams: true,
+		},
+	},
 	Metadata: "pb/test.proto",
 }
