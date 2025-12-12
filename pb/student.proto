@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package student;
+
+option go_package = "github.com/mvk12/grpc-demo;pb";
+
+message Student {
+  int32 id = 1;
+  string name = 2;
+  string email = 3;
+}
+
+message GetStudentRequest {
+  int32 id = 1;
+}
+
+message StudentResponse {
+  int32 id = 1;
+}
+
+service StudentService {
+  rpc GetStudent(GetStudentRequest) returns (Student);
+  rpc CreateStudent(Student) returns (StudentResponse);
+}
