@@ -6,3 +6,8 @@ type Student struct {
 	Email string `json:"email"`
 }
 
+type Test struct {
+	ID          int32  `json:"id"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+}
