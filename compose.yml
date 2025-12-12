@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:18-alpine
+    shm_size: 128mb
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: grpc_db
+    ports:
+      - "54322:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./database:/docker-entrypoint-initdb.d
+
+volumes:
+  db_data:
