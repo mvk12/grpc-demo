@@ -185,7 +185,7 @@ const file_pb_student_proto_rawDesc = "" +
 	"\x0eStudentService\x12:\n" +
 	"\n" +
 	"GetStudent\x12\x1a.student.GetStudentRequest\x1a\x10.student.Student\x12;\n" +
-	"\rCreateStudent\x12\x10.student.Student\x1a\x18.student.StudentResponseB\x1fZ\x1dgithub.com/mvk12/grpc-demo;pbb\x06proto3"
+	"\rCreateStudent\x12\x10.student.Student\x1a\x18.student.StudentResponseB\x1fZ\x1dgithub.com/mvk12/grpc-demo/pbb\x06proto3"
 
 var (
 	file_pb_student_proto_rawDescOnce sync.Once

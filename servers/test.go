@@ -49,7 +49,7 @@ func (s *TestServer) CreateQuestions(stream pb.TestService_CreateQuestionsServer
 	for {
 		req, err := stream.Recv()
 		if err == io.EOF {
-			return stream.SendAndClose(&pb.QuestionsResponse{
+			return stream.SendAndClose(&pb.SimpleStreamResponse{
 				Ok: true,
 			})
 		}
@@ -66,7 +66,7 @@ func (s *TestServer) CreateQuestions(stream pb.TestService_CreateQuestionsServer
 
 		_, err = s.repo.CreateQuestion(stream.Context(), questionModel)
 		if err != nil {
-			return stream.SendAndClose(&pb.QuestionsResponse{
+			return stream.SendAndClose(&pb.SimpleStreamResponse{
 				Ok: false,
 			})
 		}

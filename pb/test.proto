@@ -1,8 +1,10 @@
 syntax = "proto3";
 
+import "pb/student.proto";
+
 package test;
 
-option go_package = "github.com/mvk12/grpc-demo;pb";
+option go_package = "github.com/mvk12/grpc-demo/pb";
 
 message Test {
   int32 id = 1;
@@ -25,12 +27,23 @@ message TestResponse {
   int32 id = 1;
 }
 
-message QuestionsResponse {
+message SimpleStreamResponse {
   bool ok = 1;
+}
+
+message EnrollmentRequest {
+  int32 student_id = 1;
+  int32 test_id = 2;
+}
+
+message GetStudentsPerTestRequest {
+  int32 test_id = 1;
 }
 
 service TestService {
   rpc GetTest(GetTestRequest) returns (Test);
   rpc CreateTest(Test) returns (TestResponse);
-  rpc CreateQuestions(stream Question) returns (QuestionsResponse);
+  rpc CreateQuestions(stream Question) returns (SimpleStreamResponse);
+  rpc EnrollStudents(stream EnrollmentRequest) returns (SimpleStreamResponse);
+  rpc GetStudentsPerTest(GetStudentsPerTestRequest) returns (stream student.Student);
 }

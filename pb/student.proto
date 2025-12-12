@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package student;
 
-option go_package = "github.com/mvk12/grpc-demo;pb";
+option go_package = "github.com/mvk12/grpc-demo/pb";
 
 message Student {
   int32 id = 1;
