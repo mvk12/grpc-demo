@@ -72,3 +72,15 @@ func (r *PostgresRepository) GetTestByID(ctx context.Context, id int32) (*models
 
 	return &test, nil
 }
+
+func (r *PostgresRepository) CreateQuestion(ctx context.Context, question *models.Question) (*models.Question, error) {
+	var id int64
+	err := r.db.QueryRowContext(ctx, "INSERT INTO public.questions (question, answer, test_id) VALUES ($1, $2, $3) RETURNING id", question.Question, question.Answer, question.TestID).Scan(&id)
+	if err != nil {
+		return nil, err
+	}
+
+	question.ID = int32(id)
+
+	return question, nil
+}
