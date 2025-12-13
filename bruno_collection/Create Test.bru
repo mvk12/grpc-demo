@@ -1,0 +1,23 @@
+meta {
+  name: Create Test
+  type: grpc
+  seq: 4
+}
+
+grpc {
+  url: localhost:50051
+  method: /test.TestService/CreateTest
+  body: grpc
+  auth: inherit
+  methodType: unary
+}
+
+body:grpc {
+  name: message 1
+  content: '''
+    {
+      "title": "Nuevo test",
+      "description": "Lorem ipsum soom las md"
+    }
+  '''
+}

@@ -1,0 +1,23 @@
+meta {
+  name: Create Student
+  type: grpc
+  seq: 2
+}
+
+grpc {
+  url: localhost:50051
+  method: /student.StudentService/CreateStudent
+  body: grpc
+  auth: inherit
+  methodType: unary
+}
+
+body:grpc {
+  name: message 1
+  content: '''
+    {
+      "name": "Leo",
+      "email": "leo+1@demo.com"
+    }
+  '''
+}

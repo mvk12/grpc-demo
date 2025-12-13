@@ -1,0 +1,23 @@
+meta {
+  name: Enroll Strudents
+  type: grpc
+  seq: 5
+}
+
+grpc {
+  url: localhost:50051
+  method: /test.TestService/EnrollStudents
+  body: grpc
+  auth: inherit
+  methodType: client-streaming
+}
+
+body:grpc {
+  name: message 1
+  content: '''
+    {
+      "student_id": 1,
+      "test_id": 1
+    }
+  '''
+}

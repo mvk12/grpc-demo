@@ -1,0 +1,22 @@
+meta {
+  name: List Students
+  type: grpc
+  seq: 1
+}
+
+grpc {
+  url: localhost:50051
+  method: /student.StudentService/GetStudent
+  body: grpc
+  auth: none
+  methodType: unary
+}
+
+body:grpc {
+  name: message 1
+  content: '''
+    {
+      "id": 1
+    }
+  '''
+}
