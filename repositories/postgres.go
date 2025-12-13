@@ -3,7 +3,6 @@ package repositories
 import (
 	"context"
 	"database/sql"
-	"log"
 
 	_ "github.com/lib/pq"
 
@@ -90,7 +89,6 @@ func (r *PostgresRepository) CreateEnrollment(ctx context.Context, enrollment *m
 	var id int64
 	err := r.db.QueryRowContext(ctx, "INSERT INTO public.enrollments (student_id, test_id) VALUES ($1, $2) RETURNING id", enrollment.StudentID, enrollment.TestID).Scan(&id)
 	if err != nil {
-		log.Printf("Error al insertar enrollment: %s", err)
 		return nil, err
 	}
 
