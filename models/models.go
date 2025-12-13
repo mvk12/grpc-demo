@@ -1,7 +1,7 @@
 package models
 
 type Student struct {
-	ID    int32 `json:"id"`
+	ID    int32  `json:"id"`
 	Name  string `json:"name"`
 	Email string `json:"email"`
 }
@@ -17,4 +17,10 @@ type Question struct {
 	Question string `json:"question"`
 	Answer   string `json:"answer"`
 	TestID   int32  `json:"test_id"`
+}
+
+type Enrollment struct {
+	ID        int32 `json:"id"`
+	StudentID int32 `json:"student_id"`
+	TestID    int32 `json:"test_id"`
 }
