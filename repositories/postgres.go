@@ -3,6 +3,7 @@ package repositories
 import (
 	"context"
 	"database/sql"
+	"log"
 
 	_ "github.com/lib/pq"
 
@@ -83,4 +84,45 @@ func (r *PostgresRepository) CreateQuestion(ctx context.Context, question *model
 	question.ID = int32(id)
 
 	return question, nil
+}
+
+func (r *PostgresRepository) CreateEnrollment(ctx context.Context, enrollment *models.Enrollment) (*models.Enrollment, error) {
+	var id int64
+	err := r.db.QueryRowContext(ctx, "INSERT INTO public.enrollments (student_id, test_id) VALUES ($1, $2) RETURNING id", enrollment.StudentID, enrollment.TestID).Scan(&id)
+	if err != nil {
+		log.Printf("Error al insertar enrollment: %s", err)
+		return nil, err
+	}
+
+	enrollment.ID = int32(id)
+
+	return enrollment, nil
+}
+
+func (r *PostgresRepository) GetStudentsPerTest(ctx context.Context, testId int32) ([]*models.Student, error) {
+	rows, err := r.db.QueryContext(ctx, `SELECT s.id, s.name, s.email
+		FROM public.students s
+		JOIN public.enrollments e ON s.id = e.student_id
+		WHERE e.test_id = $1
+	`, testId)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var students []*models.Student
+	for rows.Next() {
+		var student models.Student
+		if err := rows.Scan(&student.ID, &student.Name, &student.Email); err == nil {
+			students = append(students, &student)
+		}
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return students, nil
 }
