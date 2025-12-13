@@ -3,6 +3,7 @@ package servers
 import (
 	"context"
 	"io"
+	"time"
 
 	"github.com/mvk12/grpc-demo/models"
 	"github.com/mvk12/grpc-demo/pb"
@@ -71,4 +72,56 @@ func (s *TestServer) CreateQuestions(stream pb.TestService_CreateQuestionsServer
 			})
 		}
 	}
+}
+
+func (s *TestServer) EnrollStudents(stream pb.TestService_EnrollStudentsServer) error {
+	for {
+		req, err := stream.Recv()
+		if err == io.EOF {
+			return stream.SendAndClose(&pb.SimpleStreamResponse{
+				Ok: true,
+			})
+		}
+
+		if err != nil {
+			return err
+		}
+
+		enrollment := &models.Enrollment{
+			StudentID: req.GetStudentId(),
+			TestID:    req.GetTestId(),
+		}
+
+		_, err = s.repo.CreateEnrollment(stream.Context(), enrollment)
+		if err != nil {
+			return stream.SendAndClose(&pb.SimpleStreamResponse{
+				Ok: false,
+			})
+		}
+	}
+}
+
+func (s *TestServer) GetStudentsPerTest(req *pb.GetStudentsPerTestRequest, stream pb.TestService_GetStudentsPerTestServer) error {
+	students, err := s.repo.GetStudentsPerTest(stream.Context(), req.GetTestId())
+	if err != nil {
+		return err
+	}
+
+	for _, student := range students {
+		student := &pb.Student{
+			Id:    student.ID,
+			Name:  student.Name,
+			Email: student.Email,
+		}
+
+		err := stream.Send(student)
+
+		if err != nil {
+			return err
+		}
+
+		time.Sleep(1 * time.Second)
+	}
+
+	return nil
 }
