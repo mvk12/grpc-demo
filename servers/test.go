@@ -2,12 +2,16 @@ package servers
 
 import (
 	"context"
+	"errors"
 	"io"
+	"log"
+	"strconv"
 	"time"
 
 	"github.com/mvk12/grpc-demo/models"
 	"github.com/mvk12/grpc-demo/pb"
 	"github.com/mvk12/grpc-demo/repositories"
+	"google.golang.org/grpc/metadata"
 )
 
 type TestServer struct {
@@ -124,4 +128,68 @@ func (s *TestServer) GetStudentsPerTest(req *pb.GetStudentsPerTestRequest, strea
 	}
 
 	return nil
+}
+
+func (s *TestServer) TakeTest(stream pb.TestService_TakeTestServer) error {
+	metadata, ok := metadata.FromIncomingContext(stream.Context())
+	if !ok {
+		return errors.New("no metadata found")
+	}
+
+	rawTestId := metadata.Get("x-test-id")
+
+	if len(rawTestId) == 0 {
+		return errors.New("\"x-test-id\" is required in metadata")
+	}
+
+	idStr := rawTestId[0]
+	parsed, err := strconv.Atoi(idStr)
+	if err != nil {
+		return err
+	}
+	testId := int32(parsed)
+
+	if testId <= 0 {
+		return errors.New("invalid test id")
+	}
+
+	questions, err := s.repo.GetQuestionsByTestID(stream.Context(), testId)
+	if err != nil {
+		return err
+	}
+
+	questionIndex := 0
+	current := &models.Question{}
+
+	for {
+		if questionIndex < len(questions) {
+			current = questions[questionIndex]
+
+			question := &pb.Question{
+				Id:       current.ID,
+				Question: current.Question,
+			}
+
+			err := stream.Send(question)
+
+			if err != nil {
+				return err
+			}
+
+			questionIndex++
+		} else {
+			return nil
+		}
+
+		req, err := stream.Recv()
+		if err == io.EOF {
+			return nil
+		}
+
+		if err != nil {
+			return err
+		}
+
+		log.Printf("Answer: %s", req.GetAnswer())
+	}
 }
