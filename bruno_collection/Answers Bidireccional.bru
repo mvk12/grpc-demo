@@ -1,15 +1,15 @@
 meta {
-  name: List Students Per Test
+  name: Answers Bidireccional
   type: grpc
-  seq: 6
+  seq: 7
 }
 
 grpc {
   url: localhost:50051
-  method: /test.TestService/GetStudentsPerTest
+  method: /test.TestService/TakeTest
   body: grpc
   auth: none
-  methodType: server-streaming
+  methodType: bidi-streaming
 }
 
 metadata {
@@ -20,7 +20,8 @@ body:grpc {
   name: message 1
   content: '''
     {
-      "test_id": 1
+      "test_id": 768,
+      "answer": "tristis"
     }
   '''
 }

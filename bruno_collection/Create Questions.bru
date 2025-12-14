@@ -1,0 +1,46 @@
+meta {
+  name: Create Questions
+  type: grpc
+  seq: 8
+}
+
+grpc {
+  url: localhost:50051
+  method: /test.TestService/CreateQuestions
+  body: grpc
+  auth: inherit
+  methodType: client-streaming
+}
+
+body:grpc {
+  name: message 1
+  content: '''
+    {
+      "question": "Lorem 1",
+      "answer": "",
+      "test_id": 1
+    }
+  '''
+}
+
+body:grpc {
+  name: message 2
+  content: '''
+    {
+      "question": "Lorem 2",
+      "answer": "",
+      "test_id": 1
+    }
+  '''
+}
+
+body:grpc {
+  name: message 3
+  content: '''
+    {
+      "question": "Lorem 3",
+      "answer": "",
+      "test_id": 1
+    }
+  '''
+}
