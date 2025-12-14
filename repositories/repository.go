@@ -14,6 +14,7 @@ type Repository interface {
 	CreateQuestion(ctx context.Context, question *models.Question) (*models.Question, error)
 	CreateEnrollment(ctx context.Context, enrollment *models.Enrollment) (*models.Enrollment, error)
 	GetStudentsPerTest(ctx context.Context, testId int32) ([]*models.Student, error)
+	GetQuestionsByTestID(ctx context.Context, testId int32) ([]*models.Question, error)
 }
 
 var repoInstance Repository
@@ -48,4 +49,8 @@ func CreateEnrollment(ctx context.Context, enrollment *models.Enrollment) (*mode
 
 func GetStudentsPerTest(ctx context.Context, testId int32) ([]*models.Student, error) {
 	return repoInstance.GetStudentsPerTest(ctx, testId)
+}
+
+func GetQuestionsByTestID(ctx context.Context, testId int32) ([]*models.Question, error) {
+	return repoInstance.GetQuestionsByTestID(ctx, testId)
 }
