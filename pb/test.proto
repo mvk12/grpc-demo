@@ -40,10 +40,15 @@ message GetStudentsPerTestRequest {
   int32 test_id = 1;
 }
 
+message TakeTestRequest {
+  string answer = 1;
+}
+
 service TestService {
   rpc GetTest(GetTestRequest) returns (Test);
   rpc CreateTest(Test) returns (TestResponse);
   rpc CreateQuestions(stream Question) returns (SimpleStreamResponse);
   rpc EnrollStudents(stream EnrollmentRequest) returns (SimpleStreamResponse);
   rpc GetStudentsPerTest(GetStudentsPerTestRequest) returns (stream student.Student);
+  rpc TakeTest(stream TakeTestRequest) returns (stream Question);
 }
