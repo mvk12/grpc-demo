@@ -8,7 +8,7 @@ Demo project showcasing a simple gRPC API in Go backed by Postgres.
 ## What’s inside
 
 - **StudentService**: create a student and fetch by id.
-- **TestService**: create/get tests, add questions (client-streaming), enroll students (client-streaming), and list students per test (server-streaming).
+- **TestService**: create/get tests, add questions (client-streaming), enroll students (client-streaming), list students per test (server-streaming), and take a test (bidirectional streaming; requires `x-test-id` metadata).
 - **Postgres**: raw `database/sql` queries (no ORM) + init SQL script.
 
 ## Architecture (high level)
@@ -135,6 +135,16 @@ grpcurl -plaintext \
 	-d '{"test_id":1}' \
 	localhost:50051 test.TestService/GetStudentsPerTest
 ```
+
+### Take a test (bidirectional streaming)
+
+`grpcurl` is not a great fit for bidirectional streaming. This repo includes a demo client in [client/main.go](client/main.go) that sets the required metadata `x-test-id`.
+
+```bash
+go run ./client
+```
+
+Note: the demo client uses hardcoded IDs (for example `test_id=1`). If your DB already has data, you may need to update the IDs in [client/main.go](client/main.go) or reset the Docker volume.
 
 ## DB schema
 
