@@ -15,6 +15,7 @@ Servicio gRPC principal: `main.go` carga `.env` (godotenv), arma el DSN de Postg
 - Repositorio: existe la interfaz `Repository` en `repositories/repository.go` y la implementación `PostgresRepository` en `repositories/postgres.go`.
 - Hay dos estilos de uso del repo: inyección explícita en servidores (`NewStudentServer(repo)`) y helpers globales que usan un singleton `repoInstance` (funciones wrapper en `repositories/repository.go`).
 - No hay ORM: las consultas usan SQL crudo con esquema `public.*`.
+- Streaming: `TakeTest` (bidireccional) requiere metadata `x-test-id` (ver `servers/test.go` y el ejemplo en `client/main.go`).
 
 ## Workflows reproducibles
 
@@ -48,25 +49,8 @@ Por defecto usa `GRPC_PORT=50051`.
 go build -o bin/grpc-demo .
 ```
 
-### Ejemplos con grpcurl
-- Asegúrate de que la DB y el servidor estén levantados (`docker compose -f compose.yml up -d` y `go run .`).
-
-```shell
-# listar servicios disponibles
-grpcurl -plaintext localhost:50051 list
-
-# describir el servicio StudentService
-grpcurl -plaintext localhost:50051 describe student.StudentService
-
-# llamar GetStudent (ej. id=1)
-grpcurl -plaintext -d '{"id":1}' localhost:50051 student.StudentService/GetStudent
-
-# llamar CreateStudent
-grpcurl -plaintext -d '{"name":"Alice","email":"alice@example.com"}' localhost:50051 student.StudentService/CreateStudent
-```
-
-### Requests de ejemplo
-- Colección Bruno: `bruno_collection/*.bru`.
+### Ejemplos de llamadas
+- Ver [README.md](README.md) para `grpcurl` y la colección de Bruno.
 
 ### Reglas y precauciones al editar
 - Si modificas `.proto`, siempre regenera `pb/` con `protoc` y verifica `option go_package`.
